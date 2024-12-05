@@ -1,5 +1,5 @@
 # The Bypass Buddy:  Bypass Script Execution Policies
-## Click [hero](https://github.com/salt-or-ester/omg-payloads/tree/master/payloads/library/execution/bypass-buddy) to the Bypass Buddy source code directly.
+## Click [here](https://github.com/salt-or-ester/omg-payloads/tree/master/payloads/library/execution/bypass-buddy) to access the Bypass Buddy source code directly.
 
 Running user (target) does **not** need to have admin rights. Bypass Buddy has only been tested on the [O.MG Plug Elite](https://hak5.org/products/omg-plug), Windows 11.   It likely works on other [hak5 devices](https://hak5.org/products/) and Windows distributions -- the payload is written in standard DuckyScript&trade;.
 
