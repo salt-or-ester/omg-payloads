@@ -1,40 +1,65 @@
-# Payload Library for O.MG Devices
+# The Bypass Buddy:  Bypass Script Execution Policies
+## Click [hero](https://github.com/salt-or-ester/omg-payloads/tree/master/payloads/library/execution/bypass-buddy) to get the Bypass Buddy source code.
 
-This repository contains payloads and extensions for O.MG Devices. Community developed payloads are listed and developers are encouraged to create pull requests to make changes to or submit new payloads.
+Running user (target) does **not** need to have admin rights. Bypass Buddy has only been tested on the [O.MG Plug Elite](https://hak5.org/products/omg-plug), Windows 11.   It likely works on other [hak5 devices](https://hak5.org/products/) and Windows distributions -- the payload is written in standard DuckyScript&trade;.
 
-## About the O.MG Cable
+## Overview
 
+### Target Has a Strict "Script Execution Policy"?  Evade it and Run Whatever Script You Please!
 
-To get a cable like this, you used to need a million dollar budget or to find a guy named MG at DEFCON. But Hak5 teamed up with MG to allow more people access to this previously clandestine attack hardware.
+In this DuckyScript&trade;, we explore a method to evade Windows 11's Script Execution Policy protections.  The approach involves downloading a script to RAM, then executing it in RAM on-the-fly.  This can be accomplished **without** administrative rights.
 
--   [Purchase at Hak5](https://shop.hak5.org/collections/mischief-gadgets/)
--   [Documentation](https://github.com/O-MG/O.MG_Cable-Firmware/wiki)
+<p align="center">
+  <img src="img/evasion.png" alt="evasion" height="75%" width="75%"/>
+</p>
 
+## How It Works
 
-![OMG Cable](https://cdn.shopify.com/s/files/1/0068/2142/files/omg_400x.png?v=1604676891)
+To avoid Windows Script Execution policies:
+1. **Upload** your .ps1 script to any webserver.
+2. **Download** the Powershel script to memory on the target host.
+3. **Execute** the Powershell script in RAM dynamically on your target host.  
+*Note: Nothing is ever written to disk.*
 
-## Documentation
-Documentation on developing payloads for the OMG Cable can be found on the [OMG Wiki](https://github.com/O-MG/O.MG-Firmware/wiki).
+## Steps to Execute a Restricted Powershell Payload
 
-## Disclaimer
-Generally, payloads may execute commands on your device or target. As such, it is possible for a payload to damage your device or target. Payloads from this repository are provided AS-IS without warranty. While Hak5 makes a best effort to review payloads, there are no guarantees as to their effectiveness. As with any script, you are advised to proceed with caution.
+1. **Prepare Your Powershell Script (.ps1)**
+   - Create your Powershell script.  The example `reverse-shell.ps1` creates a reverse shell on the target host.  You can create any Powerscript payload you please.
 
-## Legal
-Payloads from this repository are provided for educational purposes only.  Hak5 gear is intended for authorized auditing and security analysis purposes only where permitted subject to local and international laws where applicable. Users are solely responsible for compliance with all laws of their locality. Hak5 LLC and affiliates claim no responsibility for unauthorized or unlawful use.
+2. **Upload Your Powershell Payload**
+   - Upload your .ps1 script to the serving-directory of your (attacking) webserver.
 
-## Contributing
-Once you have developed your payload, you are encouraged to contribute to this repository by submitting a Pull Request. Reviewed and Approved pull requests will add your payload to this repository, where they may be publically available.
+3. **Set Up Your Listener**
+   - Open a listener on your receiving (attacking) host using Netcat or any listener you please:  
+     ```bash
+     nc -v -p 4111
+     ```
 
-Please adhere to the following best practices and style guide when submitting a payload.
+4. **Prepare Your DuckyScript&trade; Payload**
+   - Add `payload.txt` to the 'boot' slot of your O.MG Plug.
 
-### Naming Conventions
-Please give your payload a unique and descriptive name. Do not use spaces in payload names. Each payload should be submit into its own directory, with `-` or `_` used in place of spaces, to one of the categories such as exfiltration, phishing, remote_access or recon. Do not create your own category.
+5. **Deploy the O.MG Plug**
+   - Implant your O.MG Plug into the target host.
 
-### Comments
-Payloads should begin with comments specifying at the very least the name of the payload and author. Additional information such as a brief description, the target, any dependencies / prerequisites and the LED status used is helpful.
+6. **Wait for Connection**
+   - Wait for the target host to connect to your listener.
 
-    REM Title: FTP Exfiltrator
-    REM Description: Exfiltrates files from %userprofile%\documents via FTP
-    REM Author: Hak5Darren
-    REM Target: Windows XP SP3 - Latest
-   
+7. **Verify the Connection**
+   - Type `whoami` into the reverse shell and hit enter.
+
+8. **Success!**
+   - You did it!
+<p></p>
+<p align="center">
+  <img src="img/reverse-shell.png" alt="reverse-shell" height="50%" width="50%"/>
+</p>
+
+## Notes
+
+- **Ensure** to modify both `reverse-shell.ps1` and `payload.txt` with your specific configurations, including the IP address and port of your sending/receiving hosts, if you choose to use `reverse-shell.ps1` as your payload.
+- In cases where you'd like to create your own .ps1 payload, modify just `payload.txt` with your webserver's host/IP and script name.
+- This method is a **proof-of-concept** and should be tested responsibly and legally.
+
+---
+
+*Remember, the purpose of this proof-of-concept is educational and for understanding how RAM injection/execution can be used to bypass certain security measures. Always use these techniques ethically and within the bounds of the law.*
