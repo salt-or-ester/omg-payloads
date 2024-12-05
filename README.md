@@ -10,7 +10,7 @@ Running user (target) does **not** need to have admin rights. Bypass Buddy has o
 In this DuckyScript&trade;, we explore a method to evade Windows 11's Script Execution Policy protections.  The approach involves downloading a script to RAM, then executing it in RAM on-the-fly.  This can be accomplished **without** administrative rights.
 
 <p align="center">
-  <img src="img/evasion.png" alt="evasion" height="75%" width="75%"/>
+  <img src="evasion.png" alt="evasion" height="75%" width="75%"/>
 </p>
 
 ## How It Works
@@ -51,7 +51,7 @@ To avoid Windows Script Execution policies:
    - You did it!
 <p></p>
 <p align="center">
-  <img src="img/reverse-shell.png" alt="reverse-shell" height="50%" width="50%"/>
+  <img src="reverse-shell.png" alt="reverse-shell" height="50%" width="50%"/>
 </p>
 
 ## Notes
